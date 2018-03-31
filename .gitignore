@@ -1,7 +1,4 @@
 .bundle/
-.ruby-version
-.ruby-gemset
-.rvmrc
 Gemfile.lock
 gems
 .DS_store

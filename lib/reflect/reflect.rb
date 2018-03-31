@@ -1,4 +1,6 @@
 module Reflect
+  Error = Class.new(RuntimeError)
+
   def self.call(subject, constant_name, strict: nil)
     Reflection.build(subject, constant_name, strict: strict)
   end
@@ -8,7 +10,7 @@ module Reflect
   end
 
   def self.get_constant(subject_constant, constant_name, strict: nil)
-    strict = true if strict.nil?
+    strict = Reflection::Default.strict if strict.nil?
 
     constant = nil
 
@@ -16,9 +18,9 @@ module Reflect
       constant = get_constant!(subject_constant, constant_name)
     end
 
-    # if constant.nil? && strict
-    #   raise Protocol::Error, "Namespace #{namespace_names.join(', ')} is not in #{subject_constant.name}"
-    # end
+    if constant.nil? && strict
+      raise Reflect::Error, "Namespace #{constant_name} is not defined in #{subject_constant.name}"
+    end
 
     constant
   end

@@ -11,16 +11,24 @@ module Reflect
             SomeInnerConstant
           end
 
+          def self.some_object_accessor
+            SomeInnerClass.new
+          end
+
           def some_method(param)
+            true
           end
 
           module SomeInnerConstant
             def some_implementation_method(param, other_param)
             end
           end
+
+          class SomeInnerClass
+          end
         end
 
-        module SomeOtherConstant
+        module ConstantWithoutAccessor
         end
       end
     end
