@@ -15,13 +15,7 @@ module Reflect
             SomeInnerClass.new
           end
 
-          def some_method(param)
-            true
-          end
-
           module SomeInnerConstant
-            def some_implementation_method(param, other_param)
-            end
           end
 
           class SomeInnerClass
