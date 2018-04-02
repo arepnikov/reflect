@@ -15,6 +15,10 @@ module Reflect
             SomeInnerClass.new
           end
 
+          def self.some_method(arg)
+            arg
+          end
+
           module SomeInnerConstant
           end
 
