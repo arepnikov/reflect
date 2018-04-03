@@ -14,12 +14,7 @@ module Reflect
       @strict = strict
     end
 
-    # def self.call(subject, constant_name, strict: nil)
-    #   build(subject, constant_name, strict: strict)
-    # end
-
     def call(method_name, arg=nil)
-      ## Test
       unless constant.respond_to?(method_name)
         raise Reflect::Error, "Constant #{constant.name} does not define method #{method_name}"
       end
