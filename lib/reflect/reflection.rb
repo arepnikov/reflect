@@ -39,15 +39,19 @@ module Reflect
       constant.respond_to?(name)
     end
 
-    def get(accessor_name)
-      result = get_constant(accessor_name)
+    def get(accessor_name, strict: nil)
+      strict = self.strict if strict.nil?
+
+      result = get_constant(accessor_name, strict: strict)
       return nil if result.nil?
 
       constant = Reflect.subject_constant(result)
       self.class.new(subject, constant, strict)
     end
 
-    def get_constant(accessor_name)
+    def get_constant(accessor_name, strict: nil)
+      strict = self.strict if strict.nil?
+
       if !constant_accessor?(accessor_name)
         if strict
           raise Reflect::Error, "Constant #{constant.name} does not have accessor #{accessor_name}"
