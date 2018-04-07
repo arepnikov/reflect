@@ -14,6 +14,10 @@ context "Reflection" do
           assert(inner_reflection.subject == subject)
         end
 
+        test "Strict is the source reflection's value of strict" do
+          assert(inner_reflection.strict == reflection.strict)
+        end
+
         test "Subject constant is the subject's constant" do
           assert(inner_reflection.subject_constant == subject.class)
         end
