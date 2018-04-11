@@ -14,6 +14,18 @@ module Reflect
       @strict = strict
     end
 
+    def self.build(subject, constant_name, strict: nil, ancestors: nil)
+      strict = Default.strict if strict.nil?
+      ancestors = Default.ancestors if ancestors.nil?
+
+      subject_constant = Reflect.subject_constant(subject)
+
+      constant = Reflect.get_constant(subject_constant, constant_name, strict: strict, ancestors: ancestors)
+      return nil if constant.nil?
+
+      instance = new(subject, constant, strict)
+    end
+
     def call(method_name, arg=nil)
       unless constant.respond_to?(method_name)
         raise Reflect::Error, "Constant #{constant.name} does not define method #{method_name}"
@@ -22,17 +34,6 @@ module Reflect
       arg ||= subject
 
       constant.send(method_name, arg)
-    end
-
-    def self.build(subject, constant_name, strict: nil)
-      strict = Default.strict if strict.nil?
-
-      subject_constant = Reflect.subject_constant(subject)
-
-      constant = Reflect.get_constant(subject_constant, constant_name, strict: strict)
-      return nil if constant.nil?
-
-      instance = new(subject, constant, strict)
     end
 
     def constant_accessor?(name)
@@ -66,6 +67,10 @@ module Reflect
     module Default
       def self.strict
         true
+      end
+
+      def self.ancestors
+        false
       end
     end
   end
