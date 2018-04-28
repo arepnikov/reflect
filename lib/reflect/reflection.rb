@@ -1,16 +1,17 @@
 module Reflect
   class Reflection
     attr_reader :subject
-    attr_reader :constant
+    attr_reader :target
+    alias :constant :target
     attr_reader :strict
 
     def subject_constant
       @subject_constant ||= Reflect.subject_constant(subject)
     end
 
-    def initialize(subject, constant, strict)
+    def initialize(subject, target, strict)
       @subject = subject
-      @constant = constant
+      @target = target
       @strict = strict
     end
 
@@ -20,10 +21,10 @@ module Reflect
 
       subject_constant = Reflect.subject_constant(subject)
 
-      constant = Reflect.get_constant(subject_constant, constant_name, strict: strict, ancestors: ancestors)
-      return nil if constant.nil?
+      target = Reflect.get_constant(subject_constant, constant_name, strict: strict, ancestors: ancestors)
+      return nil if target.nil?
 
-      instance = new(subject, constant, strict)
+      instance = new(subject, target, strict)
     end
 
     def call(method_name, arg=nil)
@@ -36,24 +37,32 @@ module Reflect
       constant.send(method_name, arg)
     end
 
-    def constant_accessor?(name)
-      constant.respond_to?(name)
+    def target_accessor?(name, subject=nil)
+      subject ||= constant
+      subject.respond_to?(name)
     end
+
+##    def constant_accessor?(name)
+##      constant.respond_to?(name)
+##    end
 
     def get(accessor_name, strict: nil)
       strict = self.strict if strict.nil?
 
-      result = get_constant(accessor_name, strict: strict)
+##
+      result = access_target(accessor_name, strict: strict)
       return nil if result.nil?
 
       constant = Reflect.subject_constant(result)
       self.class.new(subject, constant, strict)
     end
 
-    def get_constant(accessor_name, strict: nil)
+## was get_constant
+    def access_target(accessor_name, strict: nil)
       strict = self.strict if strict.nil?
 
-      if !constant_accessor?(accessor_name)
+##      if !constant_accessor?(accessor_name)
+      if !target_accessor?(accessor_name)
         if strict
           raise Reflect::Error, "Constant #{constant.name} does not have accessor #{accessor_name}"
         else
