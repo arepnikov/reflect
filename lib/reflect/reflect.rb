@@ -5,7 +5,8 @@ module Reflect
     Reflection.build(subject, constant_name, strict: strict, ancestors: ancestors)
   end
 
-  def self.subject_constant(subject)
+##  def self.subject_constant(subject)
+  def self.constant(subject)
     [Module, Class].include?(subject.class) ? subject : subject.class
   end
 
