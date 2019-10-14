@@ -11,8 +11,8 @@ context "Reflect" do
         random_method_name = Reflect::Controls::Namespace::Random.get
 
         test "Is an error" do
-          assert proc { reflection.(random_method_name) } do
-            raises_error? Reflect::Error
+          assert_raises Reflect::Error do
+            reflection.(random_method_name)
           end
         end
       end
