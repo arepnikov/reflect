@@ -11,7 +11,7 @@ context "Reflection" do
         random_accessor_name = Reflect::Controls::Namespace::Random.get
 
         test "Is an error" do
-          assert_raises Reflect::Error do
+          assert_raises(Reflect::Error) do
             reflection.get(random_accessor_name)
           end
         end
