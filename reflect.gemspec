@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 Gem::Specification.new do |s|
   s.name = 'evt-reflect'
-  s.version = '0.2.0.0'
+  s.version = '2.2.0.0'
   s.summary = 'Reflection of inner namespaces used for protocol discovery'
   s.description = ' '
 
