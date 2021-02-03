@@ -24,7 +24,7 @@ module Reflect
       target = Reflect.get_constant(subject_constant, constant_name, strict: strict, ancestors: ancestors)
       return nil if target.nil?
 
-      instance = new(subject, target, strict)
+      new(subject, target, strict)
     end
 
     def call(method_name, arg=nil)
