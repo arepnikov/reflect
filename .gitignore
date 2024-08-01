@@ -3,7 +3,7 @@ Gemfile.lock
 gems
 .DS_store
 *.log
-*scratch.*
+*sketch*
 materials
 *.gem
 *notes.*

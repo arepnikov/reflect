@@ -5,6 +5,7 @@ puts RUBY_DESCRIPTION
 
 require_relative '../init.rb'
 
+require 'record_invocation'
 require 'test_bench'; TestBench.activate
 
 require 'pp'

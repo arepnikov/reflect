@@ -60,7 +60,7 @@ class SomeClass
 end
 
 some_instance = SomeClass.new
-some_reflection = Reflect.(some_instance, :SomeModule)
+some_reflection = Reflect.(some_instance, :Substitute)
 
 some_reflection.(:build)
 # => some substitute
