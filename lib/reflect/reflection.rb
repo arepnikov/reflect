@@ -27,20 +27,41 @@ module Reflect
       new(subject, target, strict)
     end
 
-    def call(method_name, arg=nil)
-      unless target.respond_to?(method_name)
+    def call(method_name, ...)
+      unless target_method?(method_name)
         target_name = Reflect.constant(target).name
         raise Reflect::Error, "#{target_name} does not define method #{method_name}"
       end
 
-      arg ||= subject
+      target.public_send(method_name, ...)
+    end
 
-      target.send(method_name, arg)
+    def !(method_name, ...)
+      call(method_name, subject, ...)
     end
 
     def target_accessor?(name, subject=nil)
       subject ||= constant
       subject.respond_to?(name)
+    end
+    alias :target_method? :target_accessor?
+
+    def arity(method_name)
+      unless target_method?(method_name)
+        target_name = Reflect.constant(target).name
+        raise Reflect::Error, "#{target_name} does not define method #{method_name}"
+      end
+
+      target.public_method(method_name).arity
+    end
+
+    def parameters(method_name)
+      unless target_method?(method_name)
+        target_name = Reflect.constant(target).name
+        raise Reflect::Error, "#{target_name} does not define method #{method_name}"
+      end
+
+      target.public_method(method_name).parameters
     end
 
     def get(accessor_name, strict: nil, coerce_constant: nil)
