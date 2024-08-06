@@ -28,7 +28,8 @@ context "Reflect" do
           &control_block
         )
 
-        invocation = target.invocation(method_name)
+        invocations = target.invocations(method_name)
+        invocation = invocations.last
 
         context "Target's #{method_name} Method" do
           test! "Invoked" do

@@ -14,7 +14,8 @@ context "Reflect" do
       reflection = Reflect.(subject, constant_name, strict: true)
       reflection.!(method_name, :some_arg)
 
-      invocation = target.invocation(method_name)
+      invocations = target.invocations(method_name)
+      invocation = invocations.last
 
       context "Target's #{method_name} Method" do
         test! "Invoked" do
