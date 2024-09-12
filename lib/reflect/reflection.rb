@@ -93,7 +93,7 @@ module Reflect
         end
       end
 
-      target.send(accessor_name)
+      target.public_send(accessor_name)
     end
 
     module Default
