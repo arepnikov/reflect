@@ -40,11 +40,14 @@ module Reflect
       call(method_name, subject, ...)
     end
 
-    def target_accessor?(name, subject=nil)
-      subject ||= constant
+    def target_method?(name, subject=nil)
+      subject ||= target
       subject.respond_to?(name)
     end
-    alias :target_method? :target_accessor?
+
+    def target_accessor?(name, subject=nil)
+      target_method?(name, subject)
+    end
 
     def arity(method_name)
       unless target_method?(method_name)
