@@ -28,10 +28,7 @@ module Reflect
     end
 
     def call(method_name, ...)
-      unless target_method?(method_name)
-        target_name = Reflect.constant(target).name
-        raise Reflect::Error, "#{target_name} does not define method #{method_name}"
-      end
+      assure_target_method(method_name)
 
       target.public_send(method_name, ...)
     end
@@ -50,19 +47,13 @@ module Reflect
     end
 
     def arity(method_name)
-      unless target_method?(method_name)
-        target_name = Reflect.constant(target).name
-        raise Reflect::Error, "#{target_name} does not define method #{method_name}"
-      end
+      assure_target_method(method_name)
 
       target.public_method(method_name).arity
     end
 
     def parameters(method_name)
-      unless target_method?(method_name)
-        target_name = Reflect.constant(target).name
-        raise Reflect::Error, "#{target_name} does not define method #{method_name}"
-      end
+      assure_target_method(method_name)
 
       target.public_method(method_name).parameters
     end
@@ -94,6 +85,13 @@ module Reflect
       end
 
       target.public_send(accessor_name)
+    end
+
+    def assure_target_method(method_name)
+      if !target_method?(method_name)
+        target_name = Reflect.constant(target).name
+        raise Reflect::Error, "#{target_name} does not define method #{method_name}"
+      end
     end
 
     module Default
