@@ -4,11 +4,10 @@ context "Reflect" do
   context "Reflection" do
     context "Arity" do
       constant_name = :SomeConstant
+      subject = Controls::Subject.example
+      target = Controls::Target.example(constant_name:, subject:)
+
       method_name = :some_method
-
-      subject = Reflect::Controls::Subject::Example.new
-
-      target = Reflect::Controls::Subject::Example::SomeConstant
       target_method_arity = target.method(method_name).arity
 
       reflection = Reflect.(subject, constant_name)
