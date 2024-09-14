@@ -52,6 +52,44 @@ module Reflect
           end
         end
       end
+
+      module MixedParameters
+        def self.example(constant_name: nil, subject: nil)
+          constant_name ||= Namespace::Random.get
+          subject ||= Subject.example
+
+          target =
+            Module.new do
+              extend Methods
+            end
+
+          subject_constant = Reflect.constant(subject)
+          subject_constant.const_set(constant_name, target)
+
+          target
+        end
+
+        module Methods
+          def self.extended(cls)
+            cls.extend(SomeMethod)
+            cls.extend(Target::Methods::SomeAccessor)
+            cls.extend(Target::Methods::SomeObjectAccessor)
+          end
+
+          module SomeMethod
+            def some_method(
+              some_parameter,
+              some_optional_parameter=nil,
+              *some_multiple_assignment_parameter,
+              some_keyword_parameter:,
+              some_optional_keyword_parameter: nil,
+              **some_multiple_assignment_keyword_parameter,
+              &some_block
+            )
+            end
+          end
+        end
+      end
     end
   end
 end

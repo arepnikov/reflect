@@ -4,12 +4,11 @@ context "Reflect" do
   context "Reflection" do
     context "Variant Actuator" do
       context "Mixed Parameters" do
-        subject = Reflect::Controls::Subject::MixedParameters::Example.new
-        target = Reflect::Controls::Subject::MixedParameters::Example::SomeConstant
+        constant_name = Controls::Namespace::Random.get
+        subject = Controls::Subject.example
+        target = Controls::Target::MixedParameters.example(constant_name:, subject:)
 
-        constant_name = :SomeConstant
         method_name = :some_method
-
         RecordInvocation.(target, method_name)
 
         control_block = proc { nil }
@@ -27,8 +26,7 @@ context "Reflect" do
           &control_block
         )
 
-        invocations = target.invocations(method_name)
-        invocation = invocations.last
+        invocation = target.invocation(method_name)
 
         context "Target's #{method_name} Method" do
           test! "Invoked" do

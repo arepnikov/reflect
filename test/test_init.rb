@@ -12,3 +12,4 @@ require 'pp'
 require 'securerandom'
 
 require 'reflect/controls'
+Controls = Reflect::Controls
