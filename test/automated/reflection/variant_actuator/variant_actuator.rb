@@ -10,7 +10,7 @@ context "Reflect" do
       method_name = :some_method
       RecordInvocation.(target, method_name)
 
-      reflection = Reflect.(subject, constant_name, strict: true)
+      reflection = Reflect.(subject, constant_name)
       reflection.!(method_name, :some_arg)
 
       invocation = target.invocation(method_name)

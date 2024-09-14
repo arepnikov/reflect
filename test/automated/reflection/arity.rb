@@ -11,7 +11,7 @@ context "Reflect" do
       target = Reflect::Controls::Subject::Example::SomeConstant
       target_method_arity = target.method(method_name).arity
 
-      reflection = Reflect.(subject, constant_name, strict: true)
+      reflection = Reflect.(subject, constant_name)
       arity = reflection.arity(method_name)
 
       test "Target method's arity" do

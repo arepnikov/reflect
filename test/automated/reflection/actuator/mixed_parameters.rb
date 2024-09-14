@@ -13,7 +13,7 @@ context "Reflect" do
 
         control_block = proc { nil }
 
-        reflection = Reflect.(subject, constant_name, strict: true)
+        reflection = Reflect.(subject, constant_name)
         reflection.(
           method_name,
           :some_arg,

@@ -5,7 +5,7 @@ context "Reflect" do
     context "Target Method Predicate" do
       context "Method Implemented" do
         subject = Reflect::Controls::Subject.example
-        reflection = Reflect.(subject, :SomeConstant, strict: true)
+        reflection = Reflect.(subject, :SomeConstant)
 
         method_name = :some_method
         method_implemented = reflection.target_method?(method_name)
@@ -17,7 +17,7 @@ context "Reflect" do
 
       context "Method Is Not Implemented" do
         subject = Reflect::Controls::Subject.example
-        reflection = Reflect.(subject, :SomeConstant, strict: true)
+        reflection = Reflect.(subject, :SomeConstant)
 
         random_method_name = Reflect::Controls::Namespace::Random.get
         method_implemented = reflection.target_method?(random_method_name)

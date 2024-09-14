@@ -10,7 +10,7 @@ context "Reflect" do
       method_name = :some_method
       target_method_parameters = target.method(method_name).parameters
 
-      reflection = Reflect.(subject, constant_name, strict: true)
+      reflection = Reflect.(subject, constant_name)
       parameters = reflection.parameters(method_name)
 
       test "Target method's parameters" do
