@@ -28,34 +28,40 @@ module Reflect
     end
 
     def call(method_name, ...)
-      assure_target_method(method_name)
-
-      target.public_send(method_name, ...)
+      target_method = target_method(method_name)
+      target_method.(...)
     end
 
     def !(method_name, ...)
       call(method_name, subject, ...)
     end
 
-    def target_method?(name, subject=nil)
+    def target_method?(method_name, subject=nil)
       subject ||= target
-      subject.respond_to?(name)
+      subject.respond_to?(method_name)
     end
 
-    def target_accessor?(name, subject=nil)
-      target_method?(name, subject)
+    def target_accessor?(method_name, subject=nil)
+      target_method?(method_name, subject)
+    end
+
+    def target_method(method_name)
+      if !target_method?(method_name)
+        target_name = Reflect.constant(target).name
+        raise Reflect::Error, "#{target_name} does not define method #{method_name}"
+      end
+
+      target.public_method(method_name)
     end
 
     def arity(method_name)
-      assure_target_method(method_name)
-
-      target.public_method(method_name).arity
+      target_method = target_method(method_name)
+      target_method.arity
     end
 
     def parameters(method_name)
-      assure_target_method(method_name)
-
-      target.public_method(method_name).parameters
+      target_method = target_method(method_name)
+      target_method.parameters
     end
 
     def get(accessor_name, strict: nil, coerce_constant: nil)
@@ -85,13 +91,6 @@ module Reflect
       end
 
       target.public_send(accessor_name)
-    end
-
-    def assure_target_method(method_name)
-      if !target_method?(method_name)
-        target_name = Reflect.constant(target).name
-        raise Reflect::Error, "#{target_name} does not define method #{method_name}"
-      end
     end
 
     module Default
