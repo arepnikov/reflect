@@ -7,22 +7,7 @@ module Reflect
 
       class Example
         module SomeConstant
-          def self.some_accessor
-            SomeInnerConstant
-          end
-
-          def self.some_object_accessor
-            SomeInnerClass.new
-          end
-
-          def self.some_method(some_parameter, some_other_parameter)
-          end
-
-          module SomeInnerConstant
-          end
-
-          class SomeInnerClass
-          end
+          extend Target::Methods
         end
 
         module ConstantWithoutAccessor
