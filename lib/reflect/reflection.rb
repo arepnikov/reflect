@@ -36,9 +36,8 @@ module Reflect
       call(method_name, subject, ...)
     end
 
-    def target_method?(method_name, subject=nil)
-      subject ||= target
-      subject.respond_to?(method_name)
+    def target_method?(method_name)
+      target.respond_to?(method_name)
     end
 
     ## Review purpose of optional subject and consider its removal - Alek, Nathan, Mon Sep 16 2024
