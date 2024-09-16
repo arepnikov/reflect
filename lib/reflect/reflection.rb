@@ -41,8 +41,10 @@ module Reflect
       subject.respond_to?(method_name)
     end
 
-    def target_accessor?(method_name, subject=nil)
-      target_method?(method_name, subject)
+    ## Review purpose of optional subject and consider its removal - Alek, Nathan, Mon Sep 16 2024
+    def target_accessor?(name, subject=nil)
+      subject ||= constant
+      subject.respond_to?(name)
     end
 
     def target_method(method_name)
