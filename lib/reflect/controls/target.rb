@@ -17,10 +17,10 @@ module Reflect
       end
 
       module Methods
-        def self.extended(cls)
-          cls.extend(SomeMethod)
-          cls.extend(SomeAccessor)
-          cls.extend(SomeObjectAccessor)
+        def self.extended(mod)
+          mod.extend(SomeMethod)
+          mod.extend(SomeAccessor)
+          mod.extend(SomeObjectAccessor)
         end
 
         module SomeMethod
@@ -29,26 +29,25 @@ module Reflect
         end
 
         module SomeAccessor
-          def self.extended(cls)
-            some_inner_module = Module.new
-            cls.const_set(:SomeInnerConstant, some_inner_module)
+          def self.extended(mod)
+            constant = Module.new
+            mod.const_set(:SomeInnerConstant, constant)
           end
 
           def some_accessor
-            some_inner_module = const_get(:SomeInnerConstant)
-            some_inner_module
+            const_get(:SomeInnerConstant)
           end
         end
 
         module SomeObjectAccessor
-          def self.extended(cls)
-            some_inner_class = Class.new
-            cls.const_set(:SomeInnerClass, some_inner_class)
+          def self.extended(mod)
+            cls = Class.new
+            mod.const_set(:SomeInnerClass, cls)
           end
 
           def some_object_accessor
-            some_inner_class = const_get(:SomeInnerClass)
-            some_inner_class.new
+            cls = const_get(:SomeInnerClass)
+            cls.new
           end
         end
       end
@@ -72,8 +71,6 @@ module Reflect
         module Methods
           def self.extended(cls)
             cls.extend(SomeMethod)
-            cls.extend(Target::Methods::SomeAccessor)
-            cls.extend(Target::Methods::SomeObjectAccessor)
           end
 
           module SomeMethod
